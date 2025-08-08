@@ -1,0 +1,11 @@
+{
+  "builds": [
+    { "src": "apps/web/next.config.mjs", "use": "@vercel/next" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "apps/web/$1" }
+  ],
+  "installCommand": "pnpm i -w",
+  "buildCommand": "pnpm --filter web build"
+}
+
