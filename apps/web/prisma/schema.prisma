@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  role      String
+  password  String
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  enrollments Enrollment[]
+  events     Event[]
+}
+
+model Course {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  tags        String[]
+  createdBy   String
+  createdAt   DateTime @default(now())
+  modules     Module[]
+  sessions    Session[]
+  enrollments Enrollment[]
+}
+
+model Module {
+  id          String   @id @default(cuid())
+  courseId    String
+  type        String
+  title       String
+  order       Int
+  assetUrl    String?
+  textContent String?
+  createdAt   DateTime @default(now())
+  course      Course   @relation(fields: [courseId], references: [id])
+  quizzes     Quiz[]
+}
+
+model Enrollment {
+  id        String   @id @default(cuid())
+  userId    String
+  courseId  String
+  role      String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  courseId  String
+  title     String
+  startAt   DateTime
+  endAt     DateTime?
+  isLive    Boolean  @default(false)
+  course    Course   @relation(fields: [courseId], references: [id])
+  roomState RoomState?
+  events    Event[]
+}
+
+model RoomState {
+  id          String   @id @default(cuid())
+  sessionId   String   @unique
+  snapshotJson String
+  updatedAt   DateTime @updatedAt
+  session     Session  @relation(fields: [sessionId], references: [id])
+}
+
+model Event {
+  id        String   @id @default(cuid())
+  userId    String
+  sessionId String
+  type      String
+  payloadJson String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  session   Session  @relation(fields: [sessionId], references: [id])
+}
+
+model Quiz {
+  id         String   @id @default(cuid())
+  moduleId   String
+  question   String
+  optionsJson String
+  answerKey  String
+  difficulty String
+  module     Module   @relation(fields: [moduleId], references: [id])
+  results    QuizResult[]
+}
+
+model QuizResult {
+  id        String   @id @default(cuid())
+  userId    String
+  quizId    String
+  correct   Boolean
+  elapsedMs Int
+  createdAt DateTime @default(now())
+  quiz      Quiz     @relation(fields: [quizId], references: [id])
+}
+
+model Badge {
+  id           String   @id @default(cuid())
+  name         String
+  criteriaJson String
+  userBadges   UserBadge[]
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  badgeId   String
+  awardedAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  badge     Badge    @relation(fields: [badgeId], references: [id])
+}
+

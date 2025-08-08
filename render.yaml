@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: learning-metaverse-rt
+    env: node
+    plan: free
+    repo: https://github.com/phdaimetaverse/am
+    buildCommand: corepack enable && corepack prepare pnpm@9.7.0 --activate && pnpm i && pnpm -F @metaverse/server build
+    startCommand: node packages/server/dist/index.js
+    envVars:
+      - key: ALLOWED_ORIGINS
+        value: https://your-vercel-url.vercel.app
+    autoDeploy: true
+
