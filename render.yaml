@@ -2,6 +2,7 @@ services:
   - type: web
     name: learning-metaverse-rt
     env: node
+    nodeVersion: 20
     plan: free
     repo: https://github.com/phdaimetaverse/am
     buildCommand: npm i -g pnpm && pnpm i --frozen-lockfile=false && pnpm -F @metaverse/server build
