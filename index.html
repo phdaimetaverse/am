@@ -16,6 +16,7 @@
         <span id="score">Score: 0</span>
       </div>
     </div>
+    <!-- TODO[Agent-B][P1]: Add avatar selector UI (dropdown or modal) in the HUD and reflect selected avatar in scene -->
 
     <a-scene renderer="colorManagement: true; highRefreshRate: true" embedded background="color: #BFDFFF">
       <!-- Lighting -->
@@ -97,6 +98,7 @@
         <a-torus color="#ff6a00" radius="1.2" radius-tubular="0.1" animation="property: rotation; to: 0 360 0; loop: true; dur: 6000; easing: linear"></a-torus>
         <a-entity text="value: Portal to Classroom; align: center; width: 4; color: #222" position="0 -1.9 0"></a-entity>
       </a-entity>
+      <!-- TODO[Agent-B][P2]: Replace portal with a GLSL shader or animated texture for better visual feedback -->
 
       <!-- Classroom Area -->
       <a-entity id="classroom" position="0 0 -40">

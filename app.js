@@ -1,4 +1,7 @@
 (() => {
+  // TODO[Agent-A][P1]: Externalize quizzes to content/quizzes.json and render entities dynamically
+  // TODO[Agent-B][P1]: Persist score to localStorage and restore on load
+  // TODO[Agent-B][P2]: Integrate networked-aframe for multiuser avatars and nameplates
   const hudScoreEl = document.getElementById('score');
   const btnToggle = document.getElementById('toggleDayNight');
   let score = 0;
