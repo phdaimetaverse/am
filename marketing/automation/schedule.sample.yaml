@@ -1,0 +1,26 @@
+# Copy this file per week (e.g., schedule-2025-08-w35.yaml)
+# This is a coordination artifact; actual posting can be manual or via your preferred tool.
+
+timezone: UTC
+defaults:
+  utm_medium: social
+
+posts:
+  - id: alpha-sneak-peek-x
+    date: 2025-08-25
+    time: "15:00"
+    platform: x
+    copy_path: marketing/posts/alpha-sneak-peek.md
+    asset_path: marketing/assets/alpha-screenshot.png
+    url: https://example.com
+    utm_campaign: alpha-intro
+
+  - id: what-were-building-linkedin
+    date: 2025-08-28
+    time: "16:00"
+    platform: linkedin
+    copy_path: marketing/posts/what-were-building.md
+    asset_path: marketing/assets/feature-grid.png
+    url: https://example.com
+    utm_campaign: alpha-intro
+
