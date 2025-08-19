@@ -9,7 +9,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "ts-node-esm src/index.ts",
+    "dev": "tsx src/index.ts",
     "build": "tsc -b",
     "start": "node dist/index.js"
   },
@@ -23,6 +23,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "tsx": "^4.16.5",
     "prisma": "^5.16.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3"
