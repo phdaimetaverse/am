@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Learning Metaverse</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <div id="hud">
+      <div class="brand">Learning Metaverse</div>
+      <div class="help">WASD to move, mouse to look. Click on panels and portals to interact.</div>
+      <div class="controls">
+        <button id="toggleDayNight" type="button">Toggle Day/Night</button>
+        <span id="score">Score: 0</span>
+      </div>
+    </div>
+
+    <a-scene renderer="colorManagement: true; highRefreshRate: true" embedded background="color: #BFDFFF">
+      <!-- Lighting -->
+      <a-entity id="lights">
+        <a-entity id="ambientLight" light="type: ambient; color: #ffffff; intensity: 0.6"></a-entity>
+        <a-entity id="sunLight" light="type: directional; color: #fff; intensity: 0.9" position="3 6 1"></a-entity>
+      </a-entity>
+
+      <!-- Sky and Ground -->
+      <a-sky id="sky" color="#BFDFFF"></a-sky>
+      <a-entity geometry="primitive: plane; width: 80; height: 80" material="color: #7ec87e; roughness: 1" rotation="-90 0 0"></a-entity>
+
+      <!-- Player Rig -->
+      <a-entity id="rig" position="0 1.6 10">
+        <a-entity id="player-camera" camera look-controls wasd-controls="acceleration: 15">
+          <a-entity id="mouse-cursor" cursor="rayOrigin: mouse" raycaster="objects: .clickable"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <!-- Welcome Arch -->
+      <a-entity position="0 2 -2">
+        <a-torus color="#6633ff" radius="2.8" radius-tubular="0.07" rotation="0 0 90" opacity="0.8"></a-torus>
+        <a-entity text="value: Welcome to the Learning Metaverse; align: center; width: 7; color: #111" position="0 1.2 0.1"></a-entity>
+      </a-entity>
+
+      <!-- Zone: Math -->
+      <a-entity id="zone-math" position="-14 0 -6">
+        <a-entity text="value: Math Zone; align: center; width: 6; color: #111" position="0 3 0"></a-entity>
+        <a-plane width="8" height="3.5" color="#ffffff" material="opacity: 0.95" position="0 1.8 0"></a-plane>
+        <a-entity text="value: Learn algebraic expressions and functions.\nTip: Click the correct answer below.; wrapCount: 36; width: 7; color: #111" position="0 2 0.02"></a-entity>
+        <!-- Quiz -->
+        <a-entity position="0 0.7 0.05">
+          <a-entity text="value: Which function grows fastest as x -> infinity?; width: 7; color: #222" position="0 0.9 0"></a-entity>
+          <a-plane class="clickable choice" data-quiz="math1" data-correct="false" color="#eeeeee" width="7" height="0.6" position="0 0.3 0"></a-plane>
+          <a-entity text="value: A) x^2; color: #111; width: 6" position="-3.1 0.3 0.01"></a-entity>
+          <a-plane class="clickable choice" data-quiz="math1" data-correct="true" color="#eeeeee" width="7" height="0.6" position="0 -0.4 0"></a-plane>
+          <a-entity text="value: B) e^x; color: #111; width: 6" position="-3.1 -0.4 0.01"></a-entity>
+          <a-plane class="clickable choice" data-quiz="math1" data-correct="false" color="#eeeeee" width="7" height="0.6" position="0 -1.1 0"></a-plane>
+          <a-entity text="value: C) log(x); color: #111; width: 6" position="-3.1 -1.1 0.01"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <!-- Zone: Science -->
+      <a-entity id="zone-science" position="0 0 -12">
+        <a-entity text="value: Science Zone; align: center; width: 6; color: #111" position="0 3 0"></a-entity>
+        <a-plane width="8" height="3.5" color="#ffffff" material="opacity: 0.95" position="0 1.8 0"></a-plane>
+        <a-entity text="value: Explore physics and biology fundamentals.\nTip: Hover to focus, click to answer.; wrapCount: 36; width: 7; color: #111" position="0 2 0.02"></a-entity>
+        <!-- Quiz -->
+        <a-entity position="0 0.7 0.05">
+          <a-entity text="value: Which color has the shortest wavelength?; width: 7; color: #222" position="0 0.9 0"></a-entity>
+          <a-plane class="clickable choice" data-quiz="sci1" data-correct="true" color="#eeeeee" width="7" height="0.6" position="0 0.3 0"></a-plane>
+          <a-entity text="value: A) Violet; color: #111; width: 6" position="-3.1 0.3 0.01"></a-entity>
+          <a-plane class="clickable choice" data-quiz="sci1" data-correct="false" color="#eeeeee" width="7" height="0.6" position="0 -0.4 0"></a-plane>
+          <a-entity text="value: B) Green; color: #111; width: 6" position="-3.1 -0.4 0.01"></a-entity>
+          <a-plane class="clickable choice" data-quiz="sci1" data-correct="false" color="#eeeeee" width="7" height="0.6" position="0 -1.1 0"></a-plane>
+          <a-entity text="value: C) Red; color: #111; width: 6" position="-3.1 -1.1 0.01"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <!-- Zone: History -->
+      <a-entity id="zone-history" position="14 0 -6">
+        <a-entity text="value: History Zone; align: center; width: 6; color: #111" position="0 3 0"></a-entity>
+        <a-plane width="8" height="3.5" color="#ffffff" material="opacity: 0.95" position="0 1.8 0"></a-plane>
+        <a-entity text="value: Walk through pivotal moments in history.\nTip: Try the portal to visit the classroom.; wrapCount: 36; width: 7; color: #111" position="0 2 0.02"></a-entity>
+        <!-- Quiz -->
+        <a-entity position="0 0.7 0.05">
+          <a-entity text="value: Which empire built the Colosseum?; width: 7; color: #222" position="0 0.9 0"></a-entity>
+          <a-plane class="clickable choice" data-quiz="his1" data-correct="false" color="#eeeeee" width="7" height="0.6" position="0 0.3 0"></a-plane>
+          <a-entity text="value: A) Greek; color: #111; width: 6" position="-3.1 0.3 0.01"></a-entity>
+          <a-plane class="clickable choice" data-quiz="his1" data-correct="true" color="#eeeeee" width="7" height="0.6" position="0 -0.4 0"></a-plane>
+          <a-entity text="value: B) Roman; color: #111; width: 6" position="-3.1 -0.4 0.01"></a-entity>
+          <a-plane class="clickable choice" data-quiz="his1" data-correct="false" color="#eeeeee" width="7" height="0.6" position="0 -1.1 0"></a-plane>
+          <a-entity text="value: C) Persian; color: #111; width: 6" position="-3.1 -1.1 0.01"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <!-- Classroom Portal -->
+      <a-entity id="portal" class="clickable" position="0 1 -10" data-teleport="classroom">
+        <a-torus color="#ff6a00" radius="1.2" radius-tubular="0.1" animation="property: rotation; to: 0 360 0; loop: true; dur: 6000; easing: linear"></a-torus>
+        <a-entity text="value: Portal to Classroom; align: center; width: 4; color: #222" position="0 -1.9 0"></a-entity>
+      </a-entity>
+
+      <!-- Classroom Area -->
+      <a-entity id="classroom" position="0 0 -40">
+        <a-entity text="value: Classroom; align: center; width: 6; color: #111" position="0 3 0"></a-entity>
+        <a-box position="0 1.25 0" depth="0.2" height="2.5" width="4" color="#333333"></a-box>
+        <a-entity text="value: Today's Topic: Problem-Solving; wrapCount: 24; color: #ffffff; width: 3.6" position="0 2.1 0.12"></a-entity>
+        <a-entity text="value: 1) Define the problem\n2) Explore strategies\n3) Execute and reflect; wrapCount: 24; color: #ffffff; width: 3.6" position="0 1.2 0.12"></a-entity>
+        <!-- Seats -->
+        <a-entity position="-3 0 2">
+          <a-box position="0 0.5 0" depth="1" height="1" width="1" color="#9dc1ff"></a-box>
+          <a-box position="2 0.5 0" depth="1" height="1" width="1" color="#9dc1ff"></a-box>
+          <a-box position="4 0.5 0" depth="1" height="1" width="1" color="#9dc1ff"></a-box>
+        </a-entity>
+        <a-entity position="-3 0 -1.2">
+          <a-box position="0 0.5 0" depth="1" height="1" width="1" color="#9dc1ff"></a-box>
+          <a-box position="2 0.5 0" depth="1" height="1" width="1" color="#9dc1ff"></a-box>
+          <a-box position="4 0.5 0" depth="1" height="1" width="1" color="#9dc1ff"></a-box>
+        </a-entity>
+        <!-- Return portal -->
+        <a-entity id="portal-back" class="clickable" position="0 1 6" data-teleport="spawn">
+          <a-torus color="#00c853" radius="1.2" radius-tubular="0.1" animation="property: rotation; to: 0 -360 0; loop: true; dur: 6000; easing: linear"></a-torus>
+          <a-entity text="value: Return to Hub; align: center; width: 4; color: #222" position="0 -1.9 0"></a-entity>
+        </a-entity>
+      </a-entity>
+
+      <!-- Decorative Trees -->
+      <a-entity position="-8 0 -2">
+        <a-cylinder position="0 1 0" radius="0.2" height="2" color="#8d6e63"></a-cylinder>
+        <a-sphere position="0 2.4 0" radius="0.9" color="#43a047"></a-sphere>
+      </a-entity>
+      <a-entity position="8 0 -3">
+        <a-cylinder position="0 1 0" radius="0.2" height="2" color="#8d6e63"></a-cylinder>
+        <a-sphere position="0 2.4 0" radius="0.9" color="#43a047"></a-sphere>
+      </a-entity>
+    </a-scene>
+
+    <script src="./app.js"></script>
+  </body>
+  
+</html>
+
