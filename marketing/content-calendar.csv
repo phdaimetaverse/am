@@ -1,0 +1,4 @@
+date,platform,type,status,owner,campaign,title,copy_path,asset_path,cta_url,utm_campaign,notes
+2025-08-25,x,announcement,idea,marketing,alpha-intro,Alpha sneak peek,marketing/posts/alpha-sneak-peek.md,marketing/assets/alpha-screenshot.png,https://example.com?utm_source=x&utm_medium=social&utm_campaign=alpha-intro,alpha-intro,
+2025-08-28,linkedin,product-update,draft,marketing,alpha-intro,What we're building and why,marketing/posts/what-were-building.md,marketing/assets/feature-grid.png,https://example.com?utm_source=linkedin&utm_medium=social&utm_campaign=alpha-intro,alpha-intro,
+2025-09-02,x,thread,draft,marketing,dev-diary,How we render learning scenes in 3D,marketing/posts/dev-3d-rendering-thread.md,marketing/assets/rendering-clip.mp4,https://example.com?utm_source=x&utm_medium=social&utm_campaign=dev-diary,dev-diary,
