@@ -13,6 +13,17 @@ const handler = NextAuth({
       },
       authorize: async (creds) => {
         if (!creds?.email || !creds?.password) return null;
+        // Dev fallback when DATABASE_URL is not configured
+        if (!process.env.DATABASE_URL) {
+          if (
+            (creds.email === 'student@example.com' || creds.email === 'instructor@example.com' || creds.email === 'admin@example.com') &&
+            creds.password === 'password'
+          ) {
+            const role = creds.email.startsWith('instr') ? 'instructor' : creds.email.startsWith('admin') ? 'admin' : 'student';
+            return { id: 'dev-user', email: creds.email, name: 'Dev User', role } as any;
+          }
+          return null;
+        }
         const user = await prisma.user.findUnique({ where: { email: creds.email } });
         if (!user) return null;
         const ok = await bcrypt.compare(creds.password, (user as any).password ?? '');
