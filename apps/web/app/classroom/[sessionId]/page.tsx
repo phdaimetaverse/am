@@ -24,7 +24,7 @@ export default function ClassroomPage() {
   const { avatars, setAvatars, localIdRef } = useAvatars(socketRef.current);
 
   useEffect(() => {
-    const baseUrl = process.env.NEXT_PUBLIC_RT_URL || 'http://localhost:4001';
+    const baseUrl = process.env.NEXT_PUBLIC_RT_URL || '';
     const role = (session?.user as any)?.role || 'student';
     const socket = createClassroomSocket(baseUrl, 'anon', role);
     socketRef.current = socket;

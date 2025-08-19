@@ -6,6 +6,14 @@ const nextConfig = {
     '@metaverse/three',
     '@metaverse/ui',
   ],
+  async rewrites() {
+    return [
+      {
+        source: '/socket.io/:path*',
+        destination: 'http://localhost:4001/socket.io/:path*',
+      },
+    ];
+  },
   experimental: {
     serverActions: {
       bodySizeLimit: '2mb'
