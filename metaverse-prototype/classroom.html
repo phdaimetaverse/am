@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VR Classroom</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="container header">
+      <div class="brand">Learning Metaverse</div>
+      <nav class="row">
+        <a class="btn ghost" href="./dashboard.html">Back to Dashboard</a>
+        <a class="btn" href="#" id="logout">Logout</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <div class="toolbar">
+        <strong id="class-title">VR Classroom</strong>
+        <div class="row">
+          <a class="btn" id="enter-vr" href="#">Enter VR</a>
+        </div>
+      </div>
+      <div class="card stage">
+        <canvas id="scene"></canvas>
+      </div>
+      <p class="muted">Note: WebXR requires a compatible device and HTTPS; this demo falls back to orbit controls.</p>
+    </main>
+
+    <script src="./app.js"></script>
+    <script>
+      const session = App.requireAuth();
+      if (!session) throw new Error('redirecting');
+      document.getElementById('logout').addEventListener('click', (e) => { e.preventDefault(); App.logout(); });
+      const params = new URLSearchParams(location.search);
+      const classId = params.get('classId') || 'demo';
+      const titleMap = { math101: 'Math 101 - Vectors', bio201: 'Biology 201 - Cell Structure', phy310: 'Physics 310 - Optics' };
+      document.getElementById('class-title').textContent = titleMap[classId] || 'VR Classroom';
+
+      // Three.js minimal without external libs
+      const canvas = document.getElementById('scene');
+      const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+      function resize() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = rect.width; canvas.height = rect.height; gl.viewport(0,0,canvas.width, canvas.height);
+      }
+      window.addEventListener('resize', resize); resize();
+
+      // Simple rotating gradient background to simulate environment
+      let t = 0;
+      function draw() {
+        t += 0.01;
+        const r = Math.floor(40 + 40*Math.sin(t));
+        const g = Math.floor(60 + 60*Math.sin(t*0.7));
+        const b = Math.floor(90 + 90*Math.cos(t*0.5));
+        gl.clearColor(r/255, g/255, b/255, 1);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        requestAnimationFrame(draw);
+      }
+      draw();
+
+      // Fake VR enter button: show message; real WebXR needs HTTPS and device
+      document.getElementById('enter-vr').addEventListener('click', (e)=>{
+        e.preventDefault();
+        alert('WebXR session would start on a compatible device. This demo simulates the classroom scene.');
+      });
+    </script>
+  </body>
+  </html>
+

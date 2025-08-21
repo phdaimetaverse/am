@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Learning Metaverse - Dashboard</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="container header">
+      <div class="brand">Learning Metaverse</div>
+      <nav class="row">
+        <span class="muted" id="welcome"></span>
+        <a class="btn ghost" href="./index.html">Home</a>
+        <a class="btn" href="#" id="logout">Logout</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <div class="grid cols-3">
+        <div class="card">
+          <div class="toolbar">
+            <strong>Learning Progress</strong>
+            <span class="chip ok" id="progress-chip">0%</span>
+          </div>
+          <canvas id="chart-progress" height="160"></canvas>
+        </div>
+
+        <div class="card">
+          <div class="toolbar">
+            <strong>Engagement</strong>
+            <span class="chip" id="engagement-chip">0%</span>
+          </div>
+          <canvas id="chart-engagement" height="160"></canvas>
+        </div>
+
+        <div class="card">
+          <div class="toolbar">
+            <strong>Time Spent</strong>
+            <span class="chip" id="time-chip">0h</span>
+          </div>
+          <canvas id="chart-time" height="160"></canvas>
+        </div>
+      </div>
+
+      <div class="space"></div>
+
+      <div class="card">
+        <div class="toolbar">
+          <strong>Your classes</strong>
+          <div class="row">
+            <a class="btn" href="./classroom.html?classId=math101">Enter VR Classroom</a>
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr><th>Class</th><th>Instructor</th><th>Status</th><th>Action</th></tr>
+          </thead>
+          <tbody id="class-list"></tbody>
+        </table>
+      </div>
+    </main>
+
+    <script src="./app.js"></script>
+    <script>
+      const session = App.requireAuth();
+      if (!session) throw new Error('redirecting');
+      document.getElementById('welcome').textContent = 'Hi, ' + session.name;
+      document.getElementById('logout').addEventListener('click', (e) => { e.preventDefault(); App.logout(); });
+
+      // Sample class data
+      const classes = [
+        { id: 'math101', title: 'Math 101 - Vectors', instructor: 'Dr. Chen', status: 'In progress' },
+        { id: 'bio201', title: 'Biology 201 - Cell Structure', instructor: 'Dr. Patel', status: 'Not started' },
+        { id: 'phy310', title: 'Physics 310 - Optics', instructor: 'Dr. Rivera', status: 'Completed' },
+      ];
+      const tbody = document.getElementById('class-list');
+      tbody.innerHTML = classes.map(c => `
+        <tr>
+          <td>${c.title}</td>
+          <td>${c.instructor}</td>
+          <td><span class="chip ${c.status==='Completed'?'ok':''}">${c.status}</span></td>
+          <td><a class="btn" href="./classroom.html?classId=${c.id}">Join</a></td>
+        </tr>
+      `).join('');
+
+      // Lightweight charts without deps
+      function drawLine(ctx, points, color) {
+        const w = ctx.canvas.width, h = ctx.canvas.height;
+        ctx.clearRect(0,0,w,h);
+        ctx.strokeStyle = '#ffffff22';
+        ctx.beginPath(); ctx.moveTo(8,h-24); ctx.lineTo(w-8,h-24); ctx.stroke();
+        ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2;
+        points.forEach((p,i)=>{
+          const x = 12 + i*((w-24)/(points.length-1));
+          const y = 12 + (1-p)*(h-36);
+          if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        });
+        ctx.stroke();
+      }
+
+      function randomSeries(n){ return Array.from({length:n},()=> Math.max(0,Math.min(1, 0.4 + (Math.random()-0.5)*0.4 + Math.random()*0.2)))); }
+
+      const progress = randomSeries(8);
+      const engagement = randomSeries(8);
+      const timeSpent = randomSeries(8);
+
+      const c1 = document.getElementById('chart-progress').getContext('2d');
+      const c2 = document.getElementById('chart-engagement').getContext('2d');
+      const c3 = document.getElementById('chart-time').getContext('2d');
+      drawLine(c1, progress, '#6c8bff');
+      drawLine(c2, engagement, '#00c2ff');
+      drawLine(c3, timeSpent, '#38d39f');
+
+      document.getElementById('progress-chip').textContent = App.formatPercent(progress.at(-1));
+      document.getElementById('engagement-chip').textContent = App.formatPercent(engagement.at(-1));
+      document.getElementById('time-chip').textContent = Math.round(timeSpent.at(-1)*10) + 'h';
+    </script>
+  </body>
+  </html>
+

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Learning Metaverse - Sign in</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="container header">
+      <div class="brand">Learning Metaverse</div>
+      <nav>
+        <a class="btn ghost" href="./index.html">Home</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <div class="card">
+        <div class="tabs">
+          <a class="tab" id="tab-login" href="#login">Login</a>
+          <a class="tab" id="tab-register" href="#register">Register</a>
+        </div>
+
+        <section id="section-login">
+          <form id="login-form">
+            <div>
+              <label for="login-email">Email</label>
+              <input id="login-email" type="email" required placeholder="you@example.com" />
+            </div>
+            <div>
+              <label for="login-password">Password</label>
+              <input id="login-password" type="password" required placeholder="••••••••" />
+            </div>
+            <button class="btn" type="submit">Login</button>
+          </form>
+          <div class="space"></div>
+          <div class="row">
+            <a class="btn google" href="?provider=google">Continue with Google</a>
+            <a class="btn facebook" href="?provider=facebook">Continue with Facebook</a>
+          </div>
+        </section>
+
+        <section id="section-register" style="display:none">
+          <form id="register-form">
+            <div>
+              <label for="reg-name">Full name</label>
+              <input id="reg-name" type="text" required placeholder="Jane Doe" />
+            </div>
+            <div>
+              <label for="reg-email">Email</label>
+              <input id="reg-email" type="email" required placeholder="you@example.com" />
+            </div>
+            <div>
+              <label for="reg-password">Password</label>
+              <input id="reg-password" type="password" required placeholder="Create a password" />
+            </div>
+            <button class="btn" type="submit">Create account</button>
+          </form>
+        </section>
+      </div>
+    </main>
+
+    <script src="./app.js"></script>
+    <script>
+      // Tabs
+      function setTab(which) {
+        const isLogin = which === 'login';
+        document.getElementById('tab-login').classList.toggle('active', isLogin);
+        document.getElementById('tab-register').classList.toggle('active', !isLogin);
+        document.getElementById('section-login').style.display = isLogin ? 'block' : 'none';
+        document.getElementById('section-register').style.display = isLogin ? 'none' : 'block';
+      }
+      const initialHash = location.hash.replace('#','') || 'login';
+      setTab(initialHash);
+      window.addEventListener('hashchange', () => setTab(location.hash.replace('#','') || 'login'));
+
+      // OAuth simulation via query param
+      const params = new URLSearchParams(location.search);
+      const provider = params.get('provider');
+      if (provider) {
+        App.oauthLogin(provider);
+        location.href = './dashboard.html';
+      }
+
+      // Forms
+      document.getElementById('login-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+        try {
+          App.loginUser({ email, password });
+          location.href = './dashboard.html';
+        } catch (err) { alert(err.message); }
+      });
+
+      document.getElementById('register-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('reg-name').value.trim();
+        const email = document.getElementById('reg-email').value.trim();
+        const password = document.getElementById('reg-password').value;
+        try {
+          App.registerUser({ name, email, password });
+          location.href = './dashboard.html';
+        } catch (err) { alert(err.message); }
+      });
+    </script>
+  </body>
+  </html>
+
