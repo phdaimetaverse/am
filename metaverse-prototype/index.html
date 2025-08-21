@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Learning Metaverse - Landing</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="container header">
+      <div class="brand">Learning Metaverse</div>
+      <nav>
+        <a class="btn ghost" href="./auth.html">Login</a>
+        <a class="btn" href="./auth.html#register">Sign up</a>
+      </nav>
+    </header>
+
+    <main class="container hero">
+      <h1>Immersive learning that feels real</h1>
+      <p class="subtitle">Register or sign in to access your analytics dashboard and join VR classrooms.</p>
+      <div class="cta-row">
+        <a class="btn lg" href="./auth.html">Continue with Email</a>
+        <a class="btn lg google" href="./auth.html?provider=google">Continue with Google</a>
+        <a class="btn lg facebook" href="./auth.html?provider=facebook">Continue with Facebook</a>
+      </div>
+      <img class="hero-illus" src="./public/hero.png" alt="VR Learning" onerror="this.style.display='none'" />
+    </main>
+
+    <footer class="container footer">
+      <span>© <span id="year"></span> Learning Metaverse</span>
+      <a href="#" class="link">Privacy</a>
+      <a href="#" class="link">Terms</a>
+    </footer>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
+  </html>
+
